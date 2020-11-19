@@ -1,50 +1,19 @@
 import { TemplateVariable } from "./templateVariable.js"
+import { TfObjectParam } from "./tfObjectParam.js";
 
-export class TemplateVariablePreset {
+export class TemplateVariablePreset extends TfObjectParam {
 
-    private output: string;
-
-    constructor(json: any) {
-
-        this.output = `  template_variable_preset {\n`;
-
-        for (let key of Object.keys(json)) {
-            this.output += this.parseKey(key, json[key]);
-        }
-
-        this.output += `  }\n`;
+    protected getName(): string {
+        return "template_variable_preset";
     }
 
-    private parseKey(key: string, value: any): string {
+    protected parseObjectParam(key: string, value: any): boolean {
 
-        if (typeof value === "string") {
-            return `    ${key} = "${value}"\n`;
+        if (key === "template_variables") {
+            this.params.push(...value.map((v: any) => new TemplateVariable(v)));
+            return true;
         }
 
-        switch (key) {
-            case "template_variables": {
-
-                if (value.length === 0) {
-                    return "";
-                }
-
-                let composite = "";
-
-                for (let v of value) {
-                    composite += new TemplateVariable(v).toString("    ");
-                }
-
-                return composite;
-            }
-
-
-            default:
-                return `  # Unused key-value pair:\n  # ${key} = ${JSON.stringify(value)}\n`;
-        }
+        return false;
     }
-
-    public toString(): string {
-        return this.output;
-    }
-
 }

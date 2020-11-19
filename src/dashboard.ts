@@ -1,66 +1,37 @@
 import { TemplateVariable } from "./templateVariable.js"
 import { TemplateVariablePreset } from "./templateVariablePreset.js"
+import { TfObjectParam } from "./tfObjectParam.js";
+import { Widget } from "./widget.js";
+import { TfStringArrayParam } from "./tfStringArrayParam.js";
 
-export class Dashboard {
+export class Dashboard extends TfObjectParam {
 
-    private output: string;
-
-    constructor(json: any) {
-        this.output = `resource "datadog_dashboard" "free_dashboard" {\n`;
-        for (let key of Object.keys(json)) {
-            this.output += this.parseKey(key, json[key]);
-        }
-        this.output += "}";
-    }
-
-    private parseKey(key: string, value: any): string {
-
-        if (typeof value === "string") {
-            return value.length === 0 ? `` : `  ${key} = "${value}"\n`;
-        }
-
-        if (typeof value === "boolean") {
-            return `  ${key} = ${value}\n`;
-        }
+    protected parseObjectParam(key: string, value: any): boolean {
 
         switch (key) {
 
             case "notify_list":
-                return value.length === 0 ? `` : `  notify_list = ["${value.join(`","`)}"]`
+                this.params.push(new TfStringArrayParam(key, value));
+                return true;
 
-            case "template_variables": {
-                if (value.length === 0) {
-                    return "";
-                }
-
-                let composite = "";
-
-                for (let v of value) {
-                    composite += new TemplateVariable(v).toString("  ");
-                }
-
-                return composite;
-            }
+            case "template_variables":
+                this.params.push(...value.map((v: any) => new TemplateVariable(v)));
+                return true;
 
             case "template_variable_presets": {
-                if (value.length === 0) {
-                    return "";
-                }
-
-                let composite = "";
-
-                for (let v of value) {
-                    composite += new TemplateVariablePreset(v).toString();
-                }
-
-                return composite;
+                this.params.push(...value.map((v: any) => new TemplateVariablePreset(v)));
+                return true;
             }
+
+            case "widgets":
+                this.params.push(...value.map((v: any) => new Widget(v)));
+                return true;
         }
 
-        return `  # Unused key-value pair:\n  # ${key} = ${JSON.stringify(value)}\n`;
+        return false
     }
 
-    public toString(): string {
-        return this.output;
+    protected getName(): string {
+        return `resource "datadog_dashboard" "free_dashboard"`;
     }
 }
