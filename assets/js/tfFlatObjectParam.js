@@ -1,18 +1,13 @@
 import { TfObjectParam } from "./tfObjectParam.js";
-
 export class TfFlatObjectParam extends TfObjectParam {
-
-    constructor(
-        private name: string,
-        value: any) {
+    constructor(name, value) {
         super(value);
+        this.name = name;
     }
-
-    protected getName() {
+    getName() {
         return this.name;
     }
-
-    protected parseObjectParam(key: string, value: any): boolean {
+    parseObjectParam(key, value) {
         return false;
     }
 }

@@ -1,18 +1,10 @@
 import { Renderer } from "./renderer.js";
-
-declare let Vue: any;
-declare global {
-    interface Window { app: any; }
-}
-
 class App {
-
-    constructor(private app: any) { }
-
-    public start() {
-
+    constructor(app) {
+        this.app = app;
+    }
+    start() {
         let renderer = new Renderer();
-
         this.app.vue = new Vue({
             el: '#app',
             data: {
@@ -22,17 +14,15 @@ class App {
                 output_terraform: ""
             },
             watch: {
-                input_json: function (inputJson: string) {
+                input_json: function (inputJson) {
                     localStorage.input_json = inputJson;
-                    (<any>this).output_terraform = renderer.render(inputJson);
+                    this.output_terraform = renderer.render(inputJson);
                 }
             }
         });
-
         if (localStorage.input_json) {
             this.app.vue.output_terraform = renderer.render(localStorage.input_json);
         }
     }
 }
-
 new App(window.app = {}).start();
