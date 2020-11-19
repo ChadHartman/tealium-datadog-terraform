@@ -1,6 +1,6 @@
 import { TemplateVariablePreset } from "./templateVariablePreset.js"
 import { TfObjectParam } from "./tfObjectParam.js";
-import { Widget } from "./widget.js";
+import { WidgetParam } from "./widgetParam.js";
 import { TfStringArrayParam } from "./tfStringArrayParam.js";
 import { TfFlatObjectParam } from "./tfFlatObjectParam.js";
 
@@ -15,7 +15,7 @@ export class Dashboard extends TfObjectParam {
                 return true;
 
             case "template_variables":
-                this.params.push(...value.map((v: any) => new TfFlatObjectParam("template_variables", v)));
+                this.params.push(...value.map((v: any) => new TfFlatObjectParam("template_variable", v)));
                 return true;
 
             case "template_variable_presets": {
@@ -24,11 +24,15 @@ export class Dashboard extends TfObjectParam {
             }
 
             case "widgets":
-                this.params.push(...value.map((v: any) => new Widget(v)));
+                this.params.push(...value.map((v: any) => new WidgetParam(v)));
                 return true;
         }
 
         return false
+    }
+
+    protected getExcludedKeys(): Array<string> {
+        return ["id"];
     }
 
     protected getName(): string {

@@ -1,20 +1,23 @@
-import { Request } from "./request.js";
 import { TfFlatObjectParam } from "./tfFlatObjectParam.js";
 import { TfObjectParam } from "./tfObjectParam.js";
 import { TfStringArrayParam } from "./tfStringArrayParam.js";
+import { WidgetParam } from "./widgetParam.js";
+import { Request } from "./request.js";
 
-export class Widget extends TfObjectParam {
+export class WidgetDefinition extends TfObjectParam {
 
-    constructor(json: any) {
+    constructor(
+        private name: string,
+        json: any) {
+
         super(json.definition);
     }
 
     protected getName(): string {
-        return "widget";
+        return this.name;
     }
 
     protected parseObjectParam(key: string, value: any): boolean {
-
         switch (key) {
 
             case "group":
@@ -31,7 +34,7 @@ export class Widget extends TfObjectParam {
                 return true;
 
             case "widgets":
-                this.params.push(...value.map((v: any) => new Widget(v)));
+                this.params.push(...value.map((v: any) => new WidgetParam(v)));
                 return true;
 
             case "style":
@@ -46,5 +49,9 @@ export class Widget extends TfObjectParam {
         }
 
         return false;
+    }
+
+    protected getExcludedKeys(): Array<string> {
+        return ["type"];
     }
 }

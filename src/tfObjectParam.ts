@@ -14,6 +14,11 @@ export abstract class TfObjectParam implements TfParam {
     }
 
     private parseParam(key: string, value: any) {
+
+        if (this.getExcludedKeys().indexOf(key) !== -1) {
+            return;
+        }
+
         switch (typeof value) {
             case "string":
                 this.params.push(new TfStringParam(key, value));
@@ -36,6 +41,10 @@ export abstract class TfObjectParam implements TfParam {
             output += param.toTerraform(prefix + "  ");
         }
         return output + `${prefix}}\n`;
+    }
+
+    protected getExcludedKeys(): Array<string> {
+        return [];
     }
 
     protected abstract getName(): string;
