@@ -32,6 +32,6 @@ export class Dashboard extends TfObjectParam {
     }
 
     protected getName(): string {
-        return `resource "datadog_dashboard" "free_dashboard"`;
+        return `resource "datadog_dashboard" "tf_dd_detailed"`;
     }
 }
