@@ -43,7 +43,7 @@ export class WidgetDefinition extends TfObjectParam {
                 return true;
 
             case "markers":
-                this.params.push(...value.map((v: any) => new TfFlatObjectParam(key, v)));
+                this.params.push(...value.map((v: any) => new TfFlatObjectParam("marker", v)));
                 return true;
 
         }
