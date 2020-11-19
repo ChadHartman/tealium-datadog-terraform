@@ -35,7 +35,7 @@ export abstract class TfObjectParam implements TfParam {
         for (let param of this.params) {
             output += param.toTerraform(prefix + "  ");
         }
-        return output + "}";
+        return output + `${prefix}}\n`;
     }
 
     protected abstract getName(): string;

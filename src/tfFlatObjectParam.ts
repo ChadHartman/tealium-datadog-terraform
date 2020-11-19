@@ -1,9 +1,15 @@
 import { TfObjectParam } from "./tfObjectParam.js";
 
-export class TemplateVariable extends TfObjectParam {
+export class TfFlatObjectParam extends TfObjectParam {
+
+    constructor(
+        private name: string,
+        value: any) {
+        super(value);
+    }
 
     protected getName() {
-        return "template_variable";
+        return this.name;
     }
 
     protected parseObjectParam(key: string, value: any): boolean {
