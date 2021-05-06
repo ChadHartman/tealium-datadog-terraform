@@ -24,6 +24,6 @@ public interface DataDogRestClient {
 	@GET
 	@Path("/dashboard/{dashboard_id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	String getDashboard(@PathParam("dashboard_id") String dashboardId);
+	GetDashboardResponse getDashboard(@PathParam("dashboard_id") String dashboardId);
 
 }

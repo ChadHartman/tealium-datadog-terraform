@@ -1,0 +1,611 @@
+{
+    "notify_list": [],
+    "description": "",
+    "author_name": "David Muller",
+    "template_variables": [
+        {
+            "default": "*",
+            "prefix": "region",
+            "name": "monitoring_region"
+        }
+    ],
+    "is_read_only": false,
+    "id": "jdr-eap-fad",
+    "title": "TiQ CDN Tag Delivery - Detailed",
+    "url": "/dashboard/jdr-eap-fad/tiq-cdn-tag-delivery---detailed",
+    "created_at": "2020-10-02T19:49:50.570950+00:00",
+    "modified_at": "2021-02-05T19:44:12.544476+00:00",
+    "author_handle": "david.muller@tealium.com",
+    "widgets": [
+        {
+            "definition": {
+                "title_size": "16",
+                "title": "Akamai TIQ Tag Response Time Avg.",
+                "title_align": "left",
+                "has_search_bar": "auto",
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [
+                            {
+                                "palette": "white_on_green",
+                                "value": 200,
+                                "comparator": "<"
+                            },
+                            {
+                                "palette": "white_on_yellow",
+                                "value": 200,
+                                "comparator": ">="
+                            },
+                            {
+                                "palette": "white_on_red",
+                                "value": 500,
+                                "comparator": ">="
+                            }
+                        ],
+                        "q": "avg:synthetics.http.response.time{url:http://tags.tiqcdn.com.edgekey.net/utag/tiqapp/monitor/utag.m.js} by {region}",
+                        "alias": "Avg Response Time",
+                        "limit": 50,
+                        "cell_display_mode": [
+                            "bar"
+                        ],
+                        "order": "desc"
+                    }
+                ],
+                "type": "query_table"
+            },
+            "layout": {
+                "y": 20,
+                "x": 50,
+                "height": 44,
+                "width": 30
+            },
+            "id": 7958323705011886
+        },
+        {
+            "definition": {
+                "time_windows": [
+                    "7d",
+                    "30d",
+                    "90d"
+                ],
+                "title_size": "16",
+                "show_error_budget": true,
+                "view_type": "detail",
+                "title_align": "left",
+                "slo_id": "e8f4d48d7b745d389fe5b127f2a8099b",
+                "view_mode": "overall",
+                "title": "Akamai Response Check Every Minute From 15 Global Locations",
+                "global_time_target": "0",
+                "type": "slo"
+            },
+            "layout": {
+                "y": 31,
+                "x": 0,
+                "height": 22,
+                "width": 50
+            },
+            "id": 1718429072927244
+        },
+        {
+            "definition": {
+                "title_size": "16",
+                "yaxis": {
+                    "include_zero": true,
+                    "max": "auto",
+                    "scale": "linear",
+                    "min": "auto",
+                    "label": ""
+                },
+                "title_align": "left",
+                "markers": [],
+                "show_legend": false,
+                "time": {
+                    "live_span": "4h"
+                },
+                "title": "Akamai Avg Response time by Region",
+                "legend_size": "0",
+                "type": "timeseries",
+                "requests": [
+                    {
+                        "q": "avg:synthetics.http.response.time{url:http://tags.tiqcdn.com.edgekey.net/utag/tiqapp/monitor/utag.m.js,$monitoring_region} by {region}",
+                        "style": {
+                            "line_width": "normal",
+                            "palette": "dog_classic",
+                            "line_type": "solid"
+                        },
+                        "display_type": "line"
+                    }
+                ]
+            },
+            "layout": {
+                "y": 52,
+                "x": 0,
+                "height": 23,
+                "width": 50
+            },
+            "id": 4695692350958384
+        },
+        {
+            "definition": {
+                "tick_pos": "50%",
+                "show_tick": false,
+                "type": "note",
+                "tick_edge": "left",
+                "text_align": "left",
+                "content": "As of Sept 2020 we have the generic utag.js served from Akamai only due to ongoing Edgecast-Verizon uptime issues.  We still have a handful of 'First Party/Grey Label' customers running on Edgecast - we plan to migrate those off.  See [Akamai Runbook](https://tealium.atlassian.net/wiki/spaces/ENGSD/pages/1069614269/Akamai+CDN+Runbook).  As of Nov. 1 2020 all new First Party/Grey Label customers will be setup on Cloudfront.",
+                "font_size": "16",
+                "background_color": "vivid_yellow"
+            },
+            "layout": {
+                "y": 0,
+                "x": 0,
+                "height": 11,
+                "width": 80
+            },
+            "id": 3177158892261704
+        },
+        {
+            "definition": {
+                "title_size": "16",
+                "title": "Akamai Avg. Global Response Time (15min)",
+                "title_align": "left",
+                "precision": 0,
+                "time": {
+                    "live_span": "15m"
+                },
+                "autoscale": true,
+                "requests": [
+                    {
+                        "q": "avg:synthetics.http.response.time{url:http://tags.tiqcdn.com.edgekey.net/utag/tiqapp/monitor/utag.m.js}",
+                        "aggregator": "avg",
+                        "conditional_formats": [
+                            {
+                                "palette": "white_on_green",
+                                "value": 200,
+                                "comparator": "<"
+                            },
+                            {
+                                "palette": "white_on_yellow",
+                                "value": 200,
+                                "comparator": ">="
+                            },
+                            {
+                                "palette": "white_on_red",
+                                "value": 5000,
+                                "comparator": ">"
+                            }
+                        ]
+                    }
+                ],
+                "type": "query_value"
+            },
+            "layout": {
+                "y": 20,
+                "x": 0,
+                "height": 10,
+                "width": 50
+            },
+            "id": 1156028275421372
+        },
+        {
+            "definition": {
+                "title_size": "16",
+                "title": "Cloudfront Avg. Global Response Time (15min)",
+                "title_align": "left",
+                "precision": 0,
+                "time": {
+                    "live_span": "15m"
+                },
+                "autoscale": true,
+                "requests": [
+                    {
+                        "q": "avg:synthetics.http.response.time{url:http://d1ivurc1pd18a3.cloudfront.net/utag/tiqapp/monitor/utag.m.js}",
+                        "aggregator": "avg",
+                        "conditional_formats": [
+                            {
+                                "palette": "white_on_green",
+                                "value": 200,
+                                "comparator": "<"
+                            },
+                            {
+                                "palette": "white_on_yellow",
+                                "value": 200,
+                                "comparator": ">="
+                            },
+                            {
+                                "palette": "white_on_red",
+                                "value": 5000,
+                                "comparator": ">"
+                            }
+                        ]
+                    }
+                ],
+                "type": "query_value"
+            },
+            "layout": {
+                "y": 20,
+                "x": 82,
+                "height": 10,
+                "width": 50
+            },
+            "id": 2190039600081582
+        },
+        {
+            "definition": {
+                "title_size": "16",
+                "title": "Cloudfront TiQ Tag Response Time Avg.",
+                "title_align": "left",
+                "has_search_bar": "auto",
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [
+                            {
+                                "palette": "white_on_green",
+                                "value": 200,
+                                "comparator": "<"
+                            },
+                            {
+                                "palette": "white_on_yellow",
+                                "value": 200,
+                                "comparator": ">="
+                            },
+                            {
+                                "palette": "white_on_red",
+                                "value": 500,
+                                "comparator": ">="
+                            }
+                        ],
+                        "q": "avg:synthetics.http.response.time{url:http://d1ivurc1pd18a3.cloudfront.net/utag/tiqapp/monitor/utag.m.js} by {region}",
+                        "alias": "Avg Response Time",
+                        "limit": 50,
+                        "cell_display_mode": [
+                            "bar"
+                        ],
+                        "order": "desc"
+                    }
+                ],
+                "type": "query_table"
+            },
+            "layout": {
+                "y": 20,
+                "x": 132,
+                "height": 44,
+                "width": 32
+            },
+            "id": 2301801735166536
+        },
+        {
+            "definition": {
+                "tick_pos": "50%",
+                "show_tick": true,
+                "type": "note",
+                "tick_edge": "bottom",
+                "text_align": "center",
+                "content": "Akamai",
+                "font_size": "24",
+                "background_color": "purple"
+            },
+            "layout": {
+                "y": 13,
+                "x": 0,
+                "height": 6,
+                "width": 80
+            },
+            "id": 2347596018931262
+        },
+        {
+            "definition": {
+                "tick_pos": "50%",
+                "show_tick": true,
+                "type": "note",
+                "tick_edge": "bottom",
+                "text_align": "center",
+                "content": "Cloudfront",
+                "font_size": "24",
+                "background_color": "vivid_orange"
+            },
+            "layout": {
+                "y": 13,
+                "x": 82,
+                "height": 6,
+                "width": 82
+            },
+            "id": 5212139900813232
+        },
+        {
+            "definition": {
+                "title_size": "16",
+                "title": "Cloudfront Avg Response time by Region",
+                "title_align": "left",
+                "yaxis": {
+                    "include_zero": true,
+                    "max": "auto",
+                    "scale": "linear",
+                    "min": "auto",
+                    "label": ""
+                },
+                "show_legend": false,
+                "time": {
+                    "live_span": "4h"
+                },
+                "legend_size": "0",
+                "type": "timeseries",
+                "requests": [
+                    {
+                        "q": "avg:synthetics.http.response.time{url:http://d1ivurc1pd18a3.cloudfront.net/utag/tiqapp/monitor/utag.m.js} by {region}",
+                        "style": {
+                            "line_width": "normal",
+                            "palette": "dog_classic",
+                            "line_type": "solid"
+                        },
+                        "display_type": "line"
+                    }
+                ]
+            },
+            "layout": {
+                "y": 52,
+                "x": 82,
+                "height": 23,
+                "width": 50
+            },
+            "id": 6276719781877244
+        },
+        {
+            "definition": {
+                "time_windows": [
+                    "7d",
+                    "30d",
+                    "90d"
+                ],
+                "title_size": "16",
+                "show_error_budget": true,
+                "view_type": "detail",
+                "title_align": "left",
+                "slo_id": "457c6f0a544e55ccaae7050198894198",
+                "view_mode": "overall",
+                "title": "SLO: [Synthetics] Cloudfront Utag (200 response)",
+                "global_time_target": "0",
+                "type": "slo"
+            },
+            "layout": {
+                "y": 31,
+                "x": 82,
+                "height": 22,
+                "width": 50
+            },
+            "id": 8388330279958602
+        },
+        {
+            "definition": {
+                "type": "query_table",
+                "requests": [
+                    {
+                        "q": "avg:synthetics.http.response.time{url:http://tags.tiqcdn.com.edgekey.net/utag/tiqapp/monitor/utag.m.js,region:aws:us-east-2}",
+                        "aggregator": "avg",
+                        "limit": 10,
+                        "order": "desc",
+                        "alias": "Akamai"
+                    },
+                    {
+                        "q": "avg:synthetics.http.response.time{region:aws:us-east-2,url:http://d1ivurc1pd18a3.cloudfront.net/utag/tiqapp/monitor/utag.m.js}",
+                        "aggregator": "avg",
+                        "alias": "Cloudfront"
+                    }
+                ],
+                "title_align": "left",
+                "title_size": "16",
+                "title": "US East 2 Response Time"
+            },
+            "layout": {
+                "y": 0,
+                "x": 82,
+                "height": 12,
+                "width": 30
+            },
+            "id": 6061634153652764
+        },
+        {
+            "definition": {
+                "title_size": "16",
+                "yaxis": {
+                    "include_zero": true,
+                    "max": "auto",
+                    "scale": "linear",
+                    "min": "auto",
+                    "label": ""
+                },
+                "title_align": "left",
+                "markers": [],
+                "show_legend": false,
+                "time": {
+                    "live_span": "4h"
+                },
+                "title": "Akamai - Customer Specific",
+                "legend_size": "0",
+                "type": "timeseries",
+                "requests": [
+                    {
+                        "q": "avg:synthetics.http.response.time{$monitoring_region,url:https://tags.tiqcdn.com/utag/cbsi/cbssportssite/prod/utag.js} by {region}",
+                        "style": {
+                            "line_width": "normal",
+                            "palette": "dog_classic",
+                            "line_type": "solid"
+                        },
+                        "display_type": "line",
+                        "metadata": [
+                            {
+                                "alias_name": "CBS",
+                                "expression": "avg:synthetics.http.response.time{$monitoring_region,url:https://tags.tiqcdn.com/utag/cbsi/cbssportssite/prod/utag.js} by {region}"
+                            }
+                        ]
+                    },
+                    {
+                        "q": "avg:synthetics.http.response.time{$monitoring_region,url:https://tags.tiqcdn.com/utag/royalmail/main/prod/utag.js} by {region}",
+                        "style": {
+                            "line_width": "normal",
+                            "palette": "dog_classic",
+                            "line_type": "solid"
+                        },
+                        "display_type": "line",
+                        "metadata": [
+                            {
+                                "alias_name": "Royal Main",
+                                "expression": "avg:synthetics.http.response.time{$monitoring_region,url:https://tags.tiqcdn.com/utag/royalmail/main/prod/utag.js} by {region}"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "layout": {
+                "y": 76,
+                "x": 0,
+                "height": 23,
+                "width": 50
+            },
+            "id": 3049397638649516
+        },
+        {
+            "definition": {
+                "title_size": "16",
+                "legend_columns": [
+                    "avg",
+                    "min",
+                    "max",
+                    "value",
+                    "sum"
+                ],
+                "yaxis": {
+                    "include_zero": true,
+                    "max": "auto",
+                    "scale": "linear",
+                    "min": "auto",
+                    "label": ""
+                },
+                "title_align": "left",
+                "markers": [],
+                "legend_layout": "vertical",
+                "show_legend": false,
+                "time": {},
+                "title": "CBS Tag Response",
+                "requests": [
+                    {
+                        "q": "max:synthetics.http.response.time{url:https://tags.tiqcdn.com/utag/cbsi/cbssportssite/prod/utag.js} by {region}",
+                        "style": {
+                            "line_width": "normal",
+                            "palette": "dog_classic",
+                            "line_type": "solid"
+                        },
+                        "display_type": "line",
+                        "metadata": [
+                            {
+                                "alias_name": "cbssportssite",
+                                "expression": "max:synthetics.http.response.time{url:https://tags.tiqcdn.com/utag/cbsi/cbssportssite/prod/utag.js} by {region}"
+                            }
+                        ]
+                    },
+                    {
+                        "q": "avg:synthetics.http.response.time{url:https://tags.tiqcdn.com/utag/cbsi/cbssports-lgtv/prod/utag.js} by {region}",
+                        "style": {
+                            "line_width": "normal",
+                            "palette": "dog_classic",
+                            "line_type": "solid"
+                        },
+                        "display_type": "line",
+                        "metadata": [
+                            {
+                                "alias_name": "cbssports-lgtv",
+                                "expression": "avg:synthetics.http.response.time{url:https://tags.tiqcdn.com/utag/cbsi/cbssports-lgtv/prod/utag.js} by {region}"
+                            }
+                        ]
+                    },
+                    {
+                        "q": "avg:synthetics.http.response.time{url:https://tags.tiqcdn.com/utag/cbsi/cbssports-vizio/prod/utag.js} by {region}",
+                        "style": {
+                            "line_width": "normal",
+                            "palette": "dog_classic",
+                            "line_type": "solid"
+                        },
+                        "display_type": "line",
+                        "metadata": [
+                            {
+                                "alias_name": "cbssports-vizio",
+                                "expression": "avg:synthetics.http.response.time{url:https://tags.tiqcdn.com/utag/cbsi/cbssports-vizio/prod/utag.js} by {region}"
+                            }
+                        ]
+                    },
+                    {
+                        "q": "avg:synthetics.http.response.time{url:https://tags.tiqcdn.com/utag/cbsi/cbscomsite/prod/utag.js} by {region}",
+                        "style": {
+                            "line_width": "normal",
+                            "palette": "dog_classic",
+                            "line_type": "solid"
+                        },
+                        "display_type": "line",
+                        "metadata": [
+                            {
+                                "alias_name": "cbscomsite",
+                                "expression": "avg:synthetics.http.response.time{url:https://tags.tiqcdn.com/utag/cbsi/cbscomsite/prod/utag.js} by {region}"
+                            }
+                        ]
+                    },
+                    {
+                        "q": "avg:synthetics.http.response.time{url:https://tags.tiqcdn.com/utag/cbsi/cbsallaccess-vizio/prod/utag.js} by {region}",
+                        "style": {
+                            "line_width": "normal",
+                            "palette": "dog_classic",
+                            "line_type": "solid"
+                        },
+                        "display_type": "line",
+                        "metadata": [
+                            {
+                                "alias_name": "cbsallaccess-vizio",
+                                "expression": "avg:synthetics.http.response.time{url:https://tags.tiqcdn.com/utag/cbsi/cbsallaccess-vizio/prod/utag.js} by {region}"
+                            }
+                        ]
+                    },
+                    {
+                        "q": "avg:synthetics.http.response.time{url:https://tags.tiqcdn.com/utag/cbsi/cbsallaccess-lgtv/prod/utag.js} by {region}",
+                        "style": {
+                            "line_width": "normal",
+                            "palette": "dog_classic",
+                            "line_type": "solid"
+                        },
+                        "display_type": "line",
+                        "metadata": [
+                            {
+                                "alias_name": "cbsallaccess-lgtv",
+                                "expression": "avg:synthetics.http.response.time{url:https://tags.tiqcdn.com/utag/cbsi/cbsallaccess-lgtv/prod/utag.js} by {region}"
+                            }
+                        ]
+                    },
+                    {
+                        "q": "avg:synthetics.http.response.time{url:https://tags.tiqcdn.com/utag/cbsi/cbsallaccess-samsung/prod/utag.js} by {region}",
+                        "style": {
+                            "line_width": "normal",
+                            "palette": "dog_classic",
+                            "line_type": "solid"
+                        },
+                        "display_type": "line",
+                        "metadata": [
+                            {
+                                "alias_name": "cbsallaccess-samsung",
+                                "expression": "avg:synthetics.http.response.time{url:https://tags.tiqcdn.com/utag/cbsi/cbsallaccess-samsung/prod/utag.js} by {region}"
+                            }
+                        ]
+                    }
+                ],
+                "type": "timeseries"
+            },
+            "layout": {
+                "y": 76,
+                "x": 52,
+                "height": 23,
+                "width": 50
+            },
+            "id": 4261511410161360
+        }
+    ],
+    "layout_type": "free"
+}
